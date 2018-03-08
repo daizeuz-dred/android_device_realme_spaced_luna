@@ -27,7 +27,6 @@
        are totally dependent on the platform and can vary
        significantly, so should be measured on the shipping platform
        with a power meter. -->
-  <item name="none">0</item>
   <item name="ambient on">35</item>
   <item name="screen.on.display0">90</item>  <!-- ~200mA -->
   <item name="screen.full.display0">250</item>  <!-- ~300mA -->
