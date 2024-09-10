@@ -1,8 +1,7 @@
 #!/bin/bash
 #
-# Copyright (C) 2016 The CyanogenMod Project
-# Copyright (C) 2017-2020 The LineageOS Project
-#
+# SPDX-FileCopyrightText: 2016 The CyanogenMod Project
+# SPDX-FileCopyrightText: 2017-2024 The LineageOS Project
 # SPDX-License-Identifier: Apache-2.0
 #
 
@@ -54,9 +53,14 @@ sed -i -E '/^[^#[:space:]]/ s|;?DISABLE_DEPS||g; /^[^#[:space:]]/ { /[.]apk/! s|
     shift
 done
 
+if [ -z "${SRC}" ]; then
+    SRC="adb"
+fi
+
 function blob_fixup {
     case "$1" in
         vendor/lib*/hw/audio.primary.mt6781.so)
+            [ "$2" = "" ] && return 0
              "${PATCHELF}" --replace-needed "libalsautils.so" "libalsautils-v31.so" "${2}"
              ;;
         vendor/bin/hw/android.hardware.neuralnetworks@1.3-service-mtk-neuron|odm/bin/hw/vendor.oplus.hardware.charger@1.0-service|vendor/lib*/libnvram.so|vendor/lib*/libsysenv.so)
@@ -71,9 +75,11 @@ function blob_fixup {
             "${PATCHELF}" --replace-needed "libhidlbase.so" "libhidlbase_v32.so" "${2}"
             ;;
         vendor/etc/init/android.hardware.media.c2@1.2-mediatek.rc)
+            [ "$2" = "" ] && return 0
             sed -i 's/@1.2-mediatek/@1.2-mediatek-64b/g' "${2}"
             ;;
         vendor/etc/init/android.hardware.media.c2@1.2-mediatek.rc)
+            [ "$2" = "" ] && return 0
             sed -i 's/@1.2-mediatek/@1.2-mediatek-64b/g' "${2}"
             ;;
         vendor/lib64/hw/android.hardware.camera.provider@2.6-impl-mediatek.so)
@@ -81,43 +87,54 @@ function blob_fixup {
             grep -q "libcamera_metadata_shim.so" "${2}" || "${PATCHELF}" --add-needed "libcamera_metadata_shim.so" "${2}"
             ;;
         vendor/lib*/hw/vendor.mediatek.hardware.pq@2.15-impl.so)
+            [ "$2" = "" ] && return 0
             "${PATCHELF}" --replace-needed "libutils.so" "libutils-v32.so" "${2}"
             "${PATCHELF}" --replace-needed "libsensorndkbridge.so" "android.hardware.sensors@1.0-convert-shared.so" "${2}"
             ;;
         vendor/etc/init/android.hardware.bluetooth@1.1-service-mediatek.rc)
+            [ "$2" = "" ] && return 0
             sed -i '/vts/Q' "$2"
             ;;
 	    vendor/lib64/libmtkcam_featurepolicy.so)
+            [ "$2" = "" ] && return 0
             # evaluateCaptureConfiguration()
             sed -i "s/\x34\xE8\x87\x40\xB9/\x34\x28\x02\x80\x52/" "$2"
             ;;
         vendor/etc/init/android.hardware.neuralnetworks@1.3-service-mtk-neuron.rc)
+            [ "$2" = "" ] && return 0
             sed -i 's/start/enable/' "$2"
             ;;
         vendor/bin/hw/android.hardware.media.c2@1.2-mediatek-64b)
+            [ "$2" = "" ] && return 0
             "${PATCHELF}" --add-needed "libstagefright_foundation-v33.so" "${2}"
             "${PATCHELF}" --replace-needed "libavservices_minijail_vendor.so" "libavservices_minijail.so" "${2}"
             ;;
         vendor/etc/init/android.hardware.media.c2@1.2-mediatek.rc)
+            [ "$2" = "" ] && return 0
             sed -i 's/@1.2-mediatek/@1.2-mediatek-64b/g' "${2}"
             ;;
         lib64/libem_support_jni.so)
+            [ "$2" = "" ] && return 0
             "${PATCHELF}" --add-needed "libjni_shim.so" "${2}"
             ;;
         vendor/lib64/hw/android.hardware.thermal@2.0-impl.so)
+            [ "$2" = "" ] && return 0
             "${PATCHELF}" --replace-needed "libutils.so" "libutils-v32.so" "${2}"
             ;;
         vendor/lib*/libmtkcam_stdutils.so)
+            [ "$2" = "" ] && return 0
             "${PATCHELF}" --replace-needed "libutils.so" "libutils-v32.so" "$2"
             ;;
         vendor/bin/hw/mtkfusionrild)
-        "${PATCHELF}" --add-needed "libutils-v32.so" "${2}"
+            [ "$2" = "" ] && return 0
+            "${PATCHELF}" --add-needed "libutils-v32.so" "${2}"
             ;;
         vendor/bin/mnld|\
         vendor/lib64/libaalservice.so|\
         vendor/lib64/libcam.utils.sensorprovider.so|\
         vendor/lib64/liboplus_mtkcam_lightsensorprovider.so|\
         vendor/lib64/hw/android.hardware.sensors@2.X-subhal-mediatek.so)
+            [ "$2" = "" ] && return 0
            "${PATCHELF}" --replace-needed "libsensorndkbridge.so" "android.hardware.sensors@1.0-convert-shared.so" "${2}"
             ;;
         vendor/lib64/libSQLiteModule_VER_ALL.so|vendor/lib64/lib3a.flash.so)
@@ -129,6 +146,7 @@ function blob_fixup {
             grep -q "libcutils.so" "${2}" || "${PATCHELF}" --add-needed "libcutils.so" "${2}"
             ;;
         vendor/lib64/hw/hwcomposer.mt6781.so)
+            [ "$2" = "" ] && return 0
              grep -q "libprocessgroup_shim.so" "${2}" || "${PATCHELF}" --add-needed "libprocessgroup_shim.so" "${2}"
             ;;
         vendor/bin/hw/android.hardware.gnss-service.mediatek|\
@@ -136,12 +154,17 @@ function blob_fixup {
             [ "$2" = "" ] && return 0
             "${PATCHELF}" --replace-needed "android.hardware.gnss-V1-ndk_platform.so" "android.hardware.gnss-V1-ndk.so" "${2}"
             ;;
+        *)
+            return 1
+            ;;
     esac
+
+    return 0
 }
 
-if [ -z "${SRC}" ]; then
-    SRC="adb"
-fi
+function blob_fixup_dry() {
+    blob_fixup "$1" ""
+}
 
 # Initialize the helper
 setup_vendor "${DEVICE}" "${VENDOR}" "${ANDROID_ROOT}" false "${CLEAN_VENDOR}"
