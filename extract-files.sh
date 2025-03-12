@@ -130,7 +130,7 @@ function blob_fixup {
             "${PATCHELF}" --add-needed "libutils-v32.so" "${2}"
             ;;
         vendor/bin/mnld|\
-        vendor/lib64/libaalservice.so|\
+        vendor/lib*/libaalservice.so|\
         vendor/lib64/libcam.utils.sensorprovider.so|\
         vendor/lib64/liboplus_mtkcam_lightsensorprovider.so|\
         vendor/lib64/hw/android.hardware.sensors@2.X-subhal-mediatek.so)
