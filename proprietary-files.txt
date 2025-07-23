@@ -1321,6 +1321,7 @@ vendor/lib64/egl/libMEOW_qt.so
 vendor/lib64/egl/libMEOW_trace.so
 vendor/lib64/hw/android.hardware.graphics.allocator@4.0-impl-mediatek.so
 vendor/lib64/hw/android.hardware.graphics.mapper@4.0-impl-mediatek.so
+vendor/lib64/hw/gralloc.default.so:vendor/lib64/hw/gralloc.mt6781.so;FIX_SONAME
 vendor/lib64/hw/hwcomposer.mt6781.so
 vendor/lib64/hw/vendor.mediatek.hardware.pq@2.15-impl.so
 vendor/lib64/hw/vulkan.mali.so
@@ -2039,7 +2040,7 @@ vendor/lib64/librgbwlightsensor.so
 vendor/lib64/libsensor_custom.so
 
 # Soundtrigger
-vendor/lib/hw/sound_trigger.primary.default.so
+vendor/lib/hw/sound_trigger.primary.default.so:vendor/lib/hw/sound_trigger.primary.mt6781.so;FIX_SONAME
 
 # Thermal
 odm/etc/temperature_profile/sys_high_temp_protect_realme_21684.xml
