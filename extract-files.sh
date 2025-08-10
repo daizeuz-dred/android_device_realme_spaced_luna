@@ -137,7 +137,12 @@ function blob_fixup {
             [ "$2" = "" ] && return 0
            "${PATCHELF}" --replace-needed "libsensorndkbridge.so" "android.hardware.sensors@1.0-convert-shared.so" "${2}"
             ;;
-        vendor/lib64/libSQLiteModule_VER_ALL.so|vendor/lib64/lib3a.flash.so)
+        vendor/lib64/libaaa_ltm.so|\
+        vendor/lib64/lib3a.flash.so|\
+        vendor/lib64/lib3a.ae.stat.so|\
+        vendor/lib64/lib3a.sensors.color.so|\
+        vendor/lib64/lib3a.sensors.flicker.so|\
+        vendor/lib64/libSQLiteModule_VER_ALL.so)
             [ "$2" = "" ] && return 0
             grep -q "liblog.so" "${2}" || "${PATCHELF_0_17_2}" --add-needed "liblog.so" "${2}"
             ;;
