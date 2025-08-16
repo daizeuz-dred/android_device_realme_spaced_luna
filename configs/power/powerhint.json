@@ -11,6 +11,7 @@
         "1800000",
         "1733000",
         "1666000",
+        "1618000",
         "1500000",
         "1375000",
         "1275000",
@@ -32,6 +33,7 @@
         "2000000",
         "1933000",
         "1866000",
+        "1800000",
         "1733000",
         "1666000",
         "1618000",
@@ -54,6 +56,7 @@
         "9999999",
         "2050000",
         "1986000",
+        "1923000",
         "1860000",
         "1796000",
         "1733000",
@@ -78,6 +81,7 @@
         "9999999",
         "2050000",
         "1986000",
+        "1923000",
         "1860000",
         "1796000",
         "1733000",
@@ -141,6 +145,7 @@
       "Path": "/dev/cpuctl/top-app/cpu.uclamp.min",
       "Values": [
         "100",
+        "45",
         "0"
       ],
       "ResetOnInit": true
@@ -239,13 +244,13 @@
       "PowerHint": "SUSTAINED_PERFORMANCE",
       "Node": "CPUBigClusterMaxFreq",
       "Duration": 0,
-      "Value": "2050000"
+      "Value": "9999999"
     },
     {
       "PowerHint": "SUSTAINED_PERFORMANCE",
       "Node": "CPULittleClusterMaxFreq",
       "Duration": 0,
-      "Value": "2000000"
+      "Value": "9999999"
     },
     {
       "PowerHint": "SUSTAINED_PERFORMANCE",
@@ -257,7 +262,7 @@
       "PowerHint": "INTERACTION",
       "Node": "CPULittleClusterMaxFreq",
       "Duration": 60,
-      "Value": "2000000"
+      "Value": "9999999"
     },
     {
       "PowerHint": "INTERACTION",
@@ -269,7 +274,7 @@
       "PowerHint": "INTERACTION",
       "Node": "CPUBigClusterMaxFreq",
       "Duration": 60,
-      "Value": "2050000"
+      "Value": "9999999"
     },
     {
       "PowerHint": "INTERACTION",
@@ -281,7 +286,7 @@
       "PowerHint": "INTERACTION",
       "Node": "TAUclampMin",
       "Duration": 0,
-      "Value": "0"
+      "Value": "45"
     },
     {
       "PowerHint": "LAUNCH",
