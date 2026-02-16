@@ -30,7 +30,6 @@ function vendor_imports() {
 		"device/realme/spaced",
 		"hardware/mediatek",
 		"hardware/mediatek/libmtkperf_client",
-        "hardware/lineage/compat",
 		"hardware/oplus",
 EOF
 }
