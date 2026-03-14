@@ -188,3 +188,7 @@ WIFI_HIDL_FEATURE_DUAL_INTERFACE := true
 
 # Inherit the proprietary files
 include vendor/realme/spaced/BoardConfigVendor.mk
+
+# Refresh Rate Controller
+TARGET_SUPPORTED_REFRESH_RATES := 30,60,90,120
+TARGET_CUSTOM_UDFPS := false
